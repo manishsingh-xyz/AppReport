@@ -1,0 +1,169 @@
+<div class="demo_wrapper">
+  <div class="demo_header">
+    <div class="demo_header_text"><p>Demo App</p></div>
+    <mat-tab-group class="header_tab">
+      <mat-tab label="Company Reviews"></mat-tab>
+      <mat-tab label="Salaries"> </mat-tab>
+      <mat-tab label="Interviews"></mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="content_wrapper" *ngIf="companyReviews">
+    <div class="home_image_div">
+      <img
+        class="banner_img"
+        src="https://cdn.one-works.com/images/projects/Europe/Zurich_Google-Office/_full/Office-Design-One-Works-2.jpg?mtime=20180912183240"
+      />
+    </div>
+    <div class="home_menu">
+      <div class="home_img">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuk2fBtZDkNH7erPTNLxZNIN6Rr8t5K61S4ohYTS1vgt62Xsnx"
+          alt="company"
+        />
+      </div>
+      <div class="company_name">
+        <p>{{ companyReviews.companyName }}</p>
+      </div>
+    </div>
+    <div class="home_menu_tabs">
+      <mat-tab-group class="home_tab">
+        <mat-tab label="Reviews"></mat-tab>
+        <mat-tab label="Jobs"> </mat-tab>
+        <mat-tab label="Salaries"></mat-tab>
+        <mat-tab label="Benefits"></mat-tab>
+      </mat-tab-group>
+    </div>
+    <div class="home_cards_div">
+      <div class="details_cards">
+        <div class="detail_div">
+          <mat-card>
+            <div class="review_div">
+              <div class="review_text_div">
+                <p>{{ companyReviews.companyName }} Reviews</p>
+              </div>
+              <div class="update_text">
+                <p>Updated {{ companyReviews.lastUpdate }}</p>
+              </div>
+            </div>
+            <div class="review_text">
+              <p>{{ companyReviews.reviews.length }} Reviews</p>
+            </div>
+            <hr />
+            <div class="recommendation_div">
+              <div class="recommend_val">
+                <mat-progress-bar
+                  mode="determinate"
+                  value="{{ companyReviews.recommendationToFriend }}"
+                ></mat-progress-bar>
+              </div>
+              <div class="recomment_text">
+                <p>
+                  Recommend to friend ({{
+                    companyReviews.recommendationToFriend
+                  }})
+                </p>
+              </div>
+            </div>
+            <div class="ceo_approve_div">
+              <div class="approve_prog">
+                <mat-progress-bar
+                  mode="determinate"
+                  value="{{ companyReviews.approveOfCeo }}"
+                ></mat-progress-bar>
+              </div>
+              <div class="approve_text">
+                <p>Approve of CEO ({{ companyReviews.approveOfCeo }})</p>
+              </div>
+            </div>
+          </mat-card>
+          <mat-card class="review_card" *ngIf="companyReviews">
+            <div class="employee_review_div"><p>Employee Reviews</p></div>
+            <hr />
+            <pagination-controls
+              (pageChange)="p = $event"
+            ></pagination-controls>
+            <div
+              class="reviews"
+              *ngFor="
+                let reviews of (companyReviews.reviews
+                  | paginate: { itemsPerPage: 3, currentPage: p });
+                let i = index
+              "
+            >
+              <div class="review_date">
+                <p class="date">{{ reviews.reviewDate }}</p>
+              </div>
+
+              <div class="emp_review_div">
+                <div class="logo">
+                  <img
+                    src="https://cdn0.iconfinder.com/data/icons/avatars-6/500/Avatar_boy_man_people_account_client_male_person_user_work_sport_beard_team_glasses-512.png"
+                    alt="some"
+                  />
+                </div>
+                <div class="emp_desig">
+                  <p class="post">{{ reviews.employeeDesignation }}</p>
+                  <div class="category">
+                    <p *ngIf="reviews.employementStatus === 0">
+                      Former Employee - Anonymous Employee
+                    </p>
+                    <p *ngIf="reviews.employementStatus === 1">
+                      Current Employee - Anonymous Employee
+                    </p>
+                  </div>
+                  <div class="emp_comment">
+                    <p *ngIf="reviews.employementType === 0">
+                      I worked at {{ companyReviews.companyName }} part-time
+                    </p>
+                    <p *ngIf="reviews.employementType === 1">
+                      I worked at {{ companyReviews.companyName }} full-time
+                    </p>
+                  </div>
+                  <div class="pros_div">
+                    <p class="pros_head">Pros</p>
+                    <p class="pros" *ngFor="let pros of reviews.pros">
+                      {{ pros }}
+                    </p>
+                  </div>
+                  <div class="cons_div">
+                    <p class="cons_head">Cons</p>
+                    <p class="pros" *ngFor="let cons of reviews.cons">
+                      {{ cons }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <hr />
+            </div>
+          </mat-card>
+        </div>
+        <div class="about_div">
+          <mat-card class="about_card">
+            <div class="about_head">
+              <h4>Company Updates</h4>
+              <p>
+                {{ companyReviews.companyUpdate }}:<a
+                  href="http://glassdoor.com/"
+                  >http://glassdoor.com/</a
+                >
+              </p>
+            </div>
+          </mat-card>
+          <!-- <mat-card class="jobs_card">
+            <div class="job_head">
+              <h4>Reviews By Job Title</h4>
+              <ul>
+                <li><a href="#">Software Engineer (1277)</a></li>
+                <li><a href="#">Lead Engineer (541)</a></li>
+                <li><a href="#">Senior Software Engineer (391)</a></li>
+                <li><a href="#">Senior Analyst (332)</a></li>
+                <li><a href="#">Technical Lead (293</a></li>
+              </ul>
+            </div>
+          </mat-card> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>
